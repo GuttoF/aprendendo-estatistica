@@ -1,0 +1,16 @@
+site_name: Aprendendo Estatística
+repo_url: https://github.com/GuttoF/aprendendo-estatistica
+repo_name: GuttoF/aprendendo-estatistica
+edit_uri: tree/main/docs
+
+theme:
+  name: material
+  language: pt-BR
+  logo: assets/logo_clean.png
+  favicon: assets/logo_clean.png
+
+markdown_extensions:
+  - attr_list
+
+extra_css:
+  - stylesheets/extra.css
