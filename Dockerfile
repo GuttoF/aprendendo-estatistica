@@ -27,6 +27,6 @@ COPY . /app
 
 
 # Command to run the application
-CMD aprendendo_estatistica/streamlit_app.py
+CMD streamlit run aprendendo_estatistica/streamlit_app.py
 
 
