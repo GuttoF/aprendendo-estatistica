@@ -28,6 +28,5 @@ COPY . /app
 EXPOSE 8501
 
 # Command to run the application
-#CMD ["streamlit", "run", "aprendendo_estatistica/streamlit_app.py", "--server.port=$PORT"]
-CMD sh -c 'streamlit run aprendendo_estatistica/streamlit_app.py --server.port=${PORT:-8501}'
+CMD ["streamlit", "run", "aprendendo_estatistica/streamlit_app.py", "--server.port=8501"]
 
