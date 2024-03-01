@@ -25,8 +25,9 @@ RUN poetry install --no-interaction --no-ansi
 # Copy the rest of your application's code into the container
 COPY . /app
 
-EXPOSE $PORT
+EXPOSE 8501
 
 # Command to run the application
-CMD ["streamlit", "run", "aprendendo_estatistica/streamlit_app.py", "--server.port=$PORT"]
+CMD ["streamlit", "run", "aprendendo_estatistica/streamlit_app.py", "--server.port=8501"]
+
 
