@@ -1,0 +1,6 @@
+[theme]
+primaryColor="#8AB4F8"  # A lighter blue for contrast against the dark background
+backgroundColor="#121212"  # Dark grey, almost black, for the main background
+secondaryBackgroundColor="#242424"  # A slightly lighter shade of dark grey for secondary elements
+textColor="#E8EAED"  # Light grey for text, ensures good readability on dark backgrounds
+font="sans serif"

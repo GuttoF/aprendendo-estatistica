@@ -86,3 +86,4 @@ def page_features():
                 - **Qualitativas Nominais**: Não possuem uma ordem :no_entry_sign:.
                     - Exemplo: motivo para escolher escola.
                 ''')
+

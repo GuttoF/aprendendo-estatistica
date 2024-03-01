@@ -36,3 +36,11 @@ class StatisticsEquations:
     @staticmethod
     def quartile_3():
         return st.latex(r"Q_3 = x_{\frac{3(n+1)}{4}}")
+    
+    @staticmethod
+    def upper_outlier():
+        return st.latex(r"\text{Acima de: } Q_3 + 1.5 \times IQR")
+    
+    @staticmethod
+    def lower_outlier():
+        return st.latex(r"\text{Abaixo de: } Q_1 - 1.5 \times IQR")

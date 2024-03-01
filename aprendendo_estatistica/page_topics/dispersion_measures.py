@@ -139,3 +139,17 @@ def page_dispersion_measures():
     st.write('Intervalo Interquartil (IQR):')
     st.write(data.quantile(0.75) - data.quantile(0.25))
 
+    st.markdown('## Outliers')
+
+    st.markdown('''
+                <div style="text-align: justify">
+                Os outliers são definidos como pontos de dados que estão além de 1,5 vezes o intervalo interquartil (IQR) acima do terceiro quartil (Q3) ou abaixo do primeiro quartil (Q1). Pontos de dados que estão além desses limites são considerados valores atípicos e são frequentemente representados como pontos individuais fora dos "bigodes" do boxplot.
+                <div>
+                ''', unsafe_allow_html=True)
+    
+    equations.upper_outlier()
+    equations.lower_outlier()
+    
+
+    st
+

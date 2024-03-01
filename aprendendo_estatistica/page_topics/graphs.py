@@ -3,7 +3,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 import streamlit as st
-
+import plotly.graph_objects as go
+import plotly.express as px
 from scipy.stats import mode
 from data.import_data import load_data
 
@@ -17,6 +18,15 @@ color4 = sns.color_palette('tab10')[3]
 color5 = sns.color_palette('tab10')[4]
 color6 = sns.color_palette('tab10')[5]
 
+hex_color1 = f'#{int(color1[0]*255):02x}{int(color1[1]*255):02x}{int(color1[2]*255):02x}'
+hex_color5 = f'#{int(color5[0]*255):02x}{int(color5[1]*255):02x}{int(color5[2]*255):02x}'
+
+
+# Data
+
+data = load_data()
+
+data = data[['escola', 'idade', 'motivo_para_escolher_escola', 'tempo_para_ir_à_escola', 'qualidade_das_relações_familiares', 'notas_do_primeiro_período', 'notas_do_segundo_período']]
 
 def measure_mode(lista, num_bins = 30):
     bins = np.linspace(min(lista), max(lista), num_bins)
@@ -65,15 +75,44 @@ def plot_data(data, title, num_bins = 30):
     plt.title(f'Boxplot - {title}')
     plt.xlabel('Valores')
 
-    plt.tight_layout()
-    plt.show()
 
+def plot_seaborn(data, feature = 'idade'):
+
+    # Plot histogram and boxplot 
+    fig, axes = plt.subplots(1, 2, figsize=(12, 6))
+    # Acess subplots
+    ax1 = axes[0]
+    ax2 = axes[1]
+
+    fig.suptitle(f'Histograma e Boxplot da {feature}', fontsize=16)
+    sns.histplot(data[feature], kde=True, color=color1, ax=ax1)
+
+    ax1.set_title(f'Histograma da {feature}')
+    ax1.set_xlabel('Idade')
+    ax1.set_ylabel('Frequência')
+
+    sns.boxplot(x=data[feature], color=color5, ax=ax2)
+    
+    ax2.set_title(f'Boxplot da {feature}')
+    ax2.set_xlabel('Idade')
+
+
+def plot_plotly(data, feature='idade'):
+    # Histogram
+    fig_hist = px.histogram(data, x=feature, nbins=20, marginal='rug', color_discrete_sequence=[hex_color1])
+    fig_hist.update_layout(title=f'Histograma da {feature}',
+                           xaxis_title='Idade',
+                           yaxis_title='Frequência')
+
+    # Boxplot
+    fig_box = px.box(data, y=feature, color_discrete_sequence=[hex_color5])
+    fig_box.update_layout(title=f'Boxplot da {feature}')
+
+    # Show both plots
+    st.plotly_chart(fig_hist, use_container_width=True)
+    st.plotly_chart(fig_box, use_container_width=True)
 
 def page_graphs():
-    data = load_data()
-
-    data = data[['escola', 'idade', 'motivo_para_escolher_escola', 'tempo_para_ir_à_escola', 'qualidade_das_relações_familiares', 'notas_do_primeiro_período', 'notas_do_segundo_período']]
-    
     st.title(':three: Gráficos estatísticos')
     
     st.markdown('## Quais são os gráficos estatísticos mais importantes? :thinking_face:')
@@ -109,8 +148,14 @@ def page_graphs():
                 Existem algumas bibliotecas importantes para a criação de gráficos em python, como <b>matplotlib</b>, <b>seaborn</b> e </plotly>. O seaborn é uma biblioteca de visualização de dados baseada no matplotlib que fornece uma interface de alto nível para desenhar gráficos estatísticos atraentes e informativos. O plotly é uma biblioteca de visualização de dados interativa que permite criar gráficos interativos e personalizáveis. Aqui iremos fazer exemplos com os dois.
                 <div>
                 ''', unsafe_allow_html=True)
+
+
+
+def page_graphs_1():
     
-    st.markdown('## Histogramas e Boxplots :bar_chart:')
+
+    
+    st.title('Histogramas e Boxplots :bar_chart:')
 
     st.markdown('''
                 <div style="text-align: justify">
@@ -203,3 +248,96 @@ def page_graphs():
     positive_skew_plot = plot_data(positive_skew_data, "Distribuição Assimétrica Positiva")
     st.pyplot(positive_skew_plot)
 
+    st.markdown('## Seaborn')
+
+    st.markdown('''
+                <div style="text-align: justify">
+                O seaborn é uma biblioteca de visualização de dados baseada no matplotlib que fornece uma interface de alto nível para desenhar gráficos estatísticos atraentes e informativos. Ele fornece uma interface de alto nível para desenhar gráficos estatísticos atraentes e informativos. Aqui, utilizaremos o banco de dados de sempre:
+                <div>
+                ''', unsafe_allow_html=True)
+    
+    st.code('''
+            import pandas as pd
+            import matplotlib.pyplot as plt
+            import seaborn as sns
+
+            # Carregando arquivo csv
+            data = pd.read_csv('data.csv')
+
+            # Selecionando somente as variáveis quantitativas
+            data = data[['escola', 'idade', 'motivo_para_escolher_escola', 'tempo_para_ir_à_escola', 'qualidade_das_relações_familiares', 'notas_do_primeiro_período', 'notas_do_segundo_período']]
+
+            # Plotando histograma e boxplot com subplots
+            # O subplots é para plotar os dois gráficos lado a lado, o primeiro argumento são a quantidade de linhas já o segundo as colunas.
+            fig, axes = plt.subplots(1, 2, figsize=(12, 6))
+
+            # Acessando os subplots por eixo
+            ax1 = axes[0]
+            ax2 = axes[1]
+
+            # Título do gráfico completo
+            fig.suptitle('Histograma e Boxplot da idade', fontsize=16)
+            
+            # Quando setamos o kde=True, o gráfico exibirá a densidade de probabilidade também, com False, apenas o histograma.
+            sns.histplot(data['idade'], kde=True, ax=ax1)
+
+
+            # Aqui podemos definir o título, nome no eixo X e no eixo Y
+            ax1.set_title(f'Histograma da idade')
+            ax1.set_xlabel('Idade')
+            ax1.set_ylabel('Frequência')
+
+            sns.boxplot(x=data['idade'], color=color5, ax=ax2)
+
+            ax2.set_title(f'Boxplot da idade')
+            ax2.set_xlabel('Idade')
+            ''', language='python')
+    
+    seaborn_plot = plot_seaborn(data)
+    st.pyplot(seaborn_plot)
+
+    st.info('Sabendo da teoria, esse gráfico é assimétrico positivo, negativo ou simétrico?')
+    st.info('Observe que o ponto no boxplot é um outlier, ou seja, um valor que está fora do intervalo interquartil.')
+
+    st.markdown('## Plotly')
+
+    st.markdown('''
+                <div style="text-align: justify">
+                O plotly é uma biblioteca de visualização de dados interativa que permite criar gráficos interativos e personalizáveis. Aqui, utilizaremos o banco de dados de sempre:
+                <div>
+                ''', unsafe_allow_html=True)
+    
+    st.code('''
+            import pandas as pd
+            import plotly.express as px
+
+            # Carregando arquivo csv
+            data = pd.read_csv('data.csv')
+
+            # Selecionando somente as variáveis quantitativas
+            data = data[['escola', 'idade', 'motivo_para_escolher_escola', 'tempo_para_ir_à_escola', 'qualidade_das_relações_familiares', 'notas_do_primeiro_período', 'notas_do_segundo_período']]
+
+
+            # Histograma da mesma forma que o seaborn
+            # marginal='rug' adiciona uma linha para cada ponto no eixo X
+            fig_hist = px.histogram(data, x='idade', marginal='rug')
+            fig_hist.update_layout(title='Histograma da idade',
+                                   xaxis_title='Idade',
+                                   yaxis_title='Frequência')
+
+            # Boxplot da mesma forma que o seaborn também
+            fig_box = px.box(data, y='idade')
+            fig_box.update_layout(title='Boxplot da idade')
+
+            # Mostrar os plots, diferente do seaborn, eles aparecem individualmente
+            fig_hist.show()
+            fig_box.show()
+            ''', language='python')
+    
+    plot_plotly(data)
+
+
+
+
+def page_graphs_2():
+    pass

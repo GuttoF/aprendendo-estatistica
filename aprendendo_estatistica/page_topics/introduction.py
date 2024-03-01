@@ -40,3 +40,5 @@ def page_introduction():
 
     Estamos entusiasmados para acompanhá-lo nesta jornada de descoberta estatística. Vamos mergulhar nos dados! :swimmer:
     ''')
+
+    

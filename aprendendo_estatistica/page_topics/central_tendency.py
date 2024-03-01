@@ -5,6 +5,7 @@ from data.import_data import load_data
 def page_central_tendency():
 
     data = load_data()
+    
     data = data[['idade', 'tempo_para_ir_à_escola']]
 
     equations = StatisticsEquations()
@@ -135,3 +136,5 @@ def page_central_tendency():
             ''', language='python')
     
     st.write(data.mode())
+
+    
