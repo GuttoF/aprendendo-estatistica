@@ -74,7 +74,7 @@ def page_features():
                 ''', unsafe_allow_html=True)
     
     st.markdown('''
-                - **Quantitativas Discretas**: Valores específicos e contáveis :counting:.
+                - **Quantitativas Discretas**: Valores específicos e contáveis :heavy_plus_sign:.
                     - Exemplo: idade;
 
                 - **Quantitativas Contínua**: Possuem uma infinidade de possíveis valores dentro de um intervalo :infinity:.
