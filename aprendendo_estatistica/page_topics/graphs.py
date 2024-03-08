@@ -23,7 +23,6 @@ hex_color5 = f'#{int(color5[0]*255):02x}{int(color5[1]*255):02x}{int(color5[2]*2
 
 
 # Data
-
 data = load_data()
 
 data = data[['escola', 'idade', 'motivo_para_escolher_escola', 'tempo_para_ir_à_escola', 'qualidade_das_relações_familiares', 'notas_do_primeiro_período', 'notas_do_segundo_período']]
@@ -37,7 +36,7 @@ def measure_mode(lista, num_bins = 30):
 
     return (mode_diff[0] + mode_diff[1])/2
 
-
+# Plot data
 def plot_data(data, title, num_bins = 30):
     mean = np.mean(data)
     median = np.median(data)
@@ -47,38 +46,39 @@ def plot_data(data, title, num_bins = 30):
 
     # Histogram
     plt.subplot(1, 2, 1)
-    
+
     # Plot histogram
     sns.histplot(data, kde = True, color = color1, bins = num_bins, edgecolor = 'black')
-    
+
     # Plot mean, median and mode
     plt.axvline(mean, color=color2, linestyle='dashed', linewidth=2, label=f'Média: {mean:.2f}')
     plt.axvline(median, color=color3, linestyle='dashed', linewidth=2, label=f'Mediana: {median:.2f}')
     plt.axvline(mode, color=color4, linestyle='dashed', linewidth=2, label=f'Moda: {mode:.2f}')
     plt.legend()
-    
+
     plt.title(f'Histograma - {title}')
     plt.xlabel('Valores')
     plt.ylabel('Frequência')
 
     # Boxplot
     plt.subplot(1, 2, 2)
-    
+
     # Plot boxplot
     sns.boxplot(x = data, color = color5)
-    
+
     # Plot mean and median
     plt.axvline(mean, color=color2, linestyle='dashed', linewidth=2, label=f'Média: {mean:.2f}')
     plt.axvline(median, color=color3, linestyle='dashed', linewidth=2, label=f'Mediana: {median:.2f}')
     plt.legend()
-    
+
     plt.title(f'Boxplot - {title}')
     plt.xlabel('Valores')
 
 
+# Plot histogram and boxplot in seaborn
 def plot_seaborn(data, feature = 'idade'):
 
-    # Plot histogram and boxplot 
+    # Plot histogram and boxplot
     fig, axes = plt.subplots(1, 2, figsize=(12, 6))
     # Acess subplots
     ax1 = axes[0]
@@ -92,11 +92,11 @@ def plot_seaborn(data, feature = 'idade'):
     ax1.set_ylabel('Frequência')
 
     sns.boxplot(x=data[feature], color=color5, ax=ax2)
-    
+
     ax2.set_title(f'Boxplot da {feature}')
     ax2.set_xlabel('Idade')
 
-
+# Plot histogram and boxplot in plotly
 def plot_plotly(data, feature='idade'):
     # Histogram
     fig_hist = px.histogram(data, x=feature, nbins=20, marginal='rug', color_discrete_sequence=[hex_color1])
@@ -114,7 +114,7 @@ def plot_plotly(data, feature='idade'):
 
 def page_graphs():
     st.title(':three: Gráficos estatísticos')
-    
+
     st.markdown('## Quais são os gráficos estatísticos mais importantes? :thinking_face:')
 
     st.markdown('''
@@ -138,9 +138,9 @@ def page_graphs():
                 Existem vários outros mas esses são os mais importantes e mais vistos atualmente.
                 <div>
                 ''', unsafe_allow_html=True)
-    
+
     st.info('Atualmente, o gráfico de pizza está sendo questionado pelo mercado e caindo em desuso, pois é difícil comparar proporções em um círculo. O gráfico de barras é uma alternativa mais eficaz.')
-    
+
     st.markdown('## Como faço isso em python? :snake:')
 
     st.markdown('''
@@ -152,9 +152,6 @@ def page_graphs():
 
 
 def page_graphs_1():
-    
-
-    
     st.title('Histogramas e Boxplots :bar_chart:')
 
     st.markdown('''
@@ -162,7 +159,7 @@ def page_graphs_1():
                 Nesta aula, exploraremos dois tipos de representações gráficas em estatística: Histogramas e Boxplots. Ambos são ferramentas essenciais para visualizar a distribuição e dispersão dos dados.
                 <div>
                 ''', unsafe_allow_html=True)
-    
+
     st.markdown('''
                 O histograma é um gráfico de barras que representa a distribuição de frequência de um conjunto de dados. Detalhes do Histograma:
 
@@ -173,22 +170,22 @@ def page_graphs_1():
                 - **Distribuição Bimodal**: Se houver dois picos, a distribuição é bimodal, indicando possivelmente duas populações diferentes nos dados.
                 ''')
 
-                
+
     st.markdown('''
                 <div style="text-align: justify">
                 Já o boxplot, ou gráfico de caixa, é uma representação gráfica que mostra a distribuição de dados quantitativos e facilita a identificação de outliers. Detalhes do Boxplot:
                 <div>
                 ''', unsafe_allow_html=True)
-    
+
     st.markdown('''
                 - **Quartis**: Divide os dados em quartis. O "box" (caixa) representa o intervalo interquartil (IQR), do primeiro ao terceiro quartil.
                 - **IQR (Intervalo Interquartil)**: Mede a dispersão dos dados e é a diferença entre o terceiro e o primeiro quartil.
-                - **Mediana**: Representada por uma linha dentro do box, indica o valor mediano dos dados. 
+                - **Mediana**: Representada por uma linha dentro do box, indica o valor mediano dos dados.
                 - **Whiskers (Bigodes)**: Linhas que se estendem do box até os valores máximo e mínimo, exceto outliers.
                 - **Outliers**: Pontos fora dos whiskers, indicam valores anormalmente altos ou baixos.
                 ''')
-    
-    st.markdown('Aqui utilizaremos dados diferentes para explicar alguns conceitos importantes. Vamos lá?') 
+
+    st.markdown('Aqui utilizaremos dados diferentes para explicar alguns conceitos importantes. Vamos lá?')
 
 
     st.code('''
@@ -217,7 +214,7 @@ def page_graphs_1():
                 Em uma distribuição simétrica, os dados são distribuídos de forma uniforme em torno da média, de modo que a metade esquerda do histograma é aproximadamente um espelho da metade direita. Isso significa que a média, mediana e moda estão todas centralizadas no mesmo ponto. Um exemplo comum de uma distribuição simétrica é a distribuição normal (ou gaussiana).
                 <div>
                 ''', unsafe_allow_html=True)
-    
+
     symmetric_data = np.random.normal(100, 15, 10000)
     symmetric_plot = plot_data(symmetric_data, "Distribuição Simétrica")
     st.pyplot(symmetric_plot)
@@ -255,7 +252,7 @@ def page_graphs_1():
                 O seaborn é uma biblioteca de visualização de dados baseada no matplotlib que fornece uma interface de alto nível para desenhar gráficos estatísticos atraentes e informativos. Ele fornece uma interface de alto nível para desenhar gráficos estatísticos atraentes e informativos. Aqui, utilizaremos o banco de dados de sempre:
                 <div>
                 ''', unsafe_allow_html=True)
-    
+
     st.code('''
             import pandas as pd
             import matplotlib.pyplot as plt
@@ -277,7 +274,7 @@ def page_graphs_1():
 
             # Título do gráfico completo
             fig.suptitle('Histograma e Boxplot da idade', fontsize=16)
-            
+
             # Quando setamos o kde=True, o gráfico exibirá a densidade de probabilidade também, com False, apenas o histograma.
             sns.histplot(data['idade'], kde=True, ax=ax1)
 
@@ -292,7 +289,7 @@ def page_graphs_1():
             ax2.set_title(f'Boxplot da idade')
             ax2.set_xlabel('Idade')
             ''', language='python')
-    
+
     seaborn_plot = plot_seaborn(data)
     st.pyplot(seaborn_plot)
 
@@ -306,7 +303,7 @@ def page_graphs_1():
                 O plotly é uma biblioteca de visualização de dados interativa que permite criar gráficos interativos e personalizáveis. Aqui, utilizaremos o banco de dados de sempre:
                 <div>
                 ''', unsafe_allow_html=True)
-    
+
     st.code('''
             import pandas as pd
             import plotly.express as px
@@ -333,11 +330,5 @@ def page_graphs_1():
             fig_hist.show()
             fig_box.show()
             ''', language='python')
-    
+
     plot_plotly(data)
-
-
-
-
-def page_graphs_2():
-    pass
